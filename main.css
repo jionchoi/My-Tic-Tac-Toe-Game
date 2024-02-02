@@ -1,10 +1,12 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Single+Day&display=swap');
 body{
     display: flex;
     justify-content: center;
     background-color: #cc99ff;
 }
 
-.welcomePage{
+#mainPage{
     background-color: #7272FF;
     width: 26rem;
     height: 38rem;
@@ -13,6 +15,7 @@ body{
     box-shadow: 3px 8px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.3);
     padding-left: 1rem;
     padding-right: 1rem;
+
 }
 
 .title{
@@ -90,23 +93,38 @@ button:hover:after{
     display: none;
 }   
 
-#game{
+#gamePage{
     display: none;
+}
+
+#game{
+    display: grid;
     grid-template-columns: auto auto auto;
     width: 50%;
     height: 50%;
 }
 
-#game > div{
-    border: 1px solid black;
-    width: 15rem;
-    height: 15rem;
-    font-size: 15rem;
-    padding: 1rem;
-    background-color: antiquewhite;
+
+
+#game > div{   
+
+    font-family: 'Single Day', cursive;
+    border: 5px solid black;
+    width: 12rem;
+    height: 12rem;
+    text-align: center;
+    font-size: 10rem;
+    background-color: #7272FF;
     
 }
 
 #game > div:hover{
     background-color: aquamarine;
+}
+
+#turn{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS';
+    font-size: 5rem;
+    margin-top: 20%;
+    text-align: center;
 }

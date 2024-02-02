@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
-    <head>
+    <head> 
         <title>My new Lab 2 Assignment</title>
         <link rel="stylesheet" href="main.css">
     </head>
 
     <body>
-        <div class="welcomePage">
+        <div id="mainPage">
             <div class="title">Welcome To Tic Tac Toe</div>
             <div id="start">
                 <button onclick="game(1)">Single Play</button> </br>
@@ -21,15 +21,17 @@
     
             <div id="multi">
                     <label class="label">Enter Your Username for two:</label>   
-                    <input tyep="text" placeholder="username" id="input"> </br>
+                    <input tyep="text" placeholder="username" id="input1"> </br>
+                    <label class="label">Enter Your Username for two:</label>   
+                    <input tyep="text" placeholder="username" id="input2"> </br>
                     <button id="play" onclick="play(2)">Play!</button>
             </div>
         </div>
 
        
  
-        <div>  
-            <div id="turn"></div>  
+        <div id="gamePage">   
+            <div id="turn"></div> 
             <div id="game">
                 <div id="item1"></div>
                 <div id="item2"></div>
