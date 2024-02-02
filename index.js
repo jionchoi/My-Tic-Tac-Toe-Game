@@ -16,26 +16,26 @@ function game(player){
         document.getElementById("multi").style.display = "block";
     }
     
-    //start the name
-    play(player);
 }
 
 /*
     Get a username from input text
     return type: string (username)
 */
-function getUsername(playerNum){
-    let username = document.getElementById("input").value;
-    console.log(document.getElementById("start").style.display);
-    //if the username is inputed, change display to none
+function getUsername(numPlayer){
+    let username = [""];
+    if(numPlayer == 1){
+        username[0] = document.getElementById("input").value;
+    }
+    else{
+        username[0] =  document.getElementById("input1").value;
+        username[1] = document.getElementById("input2").value;
+    }
+    //if the username is inputed, change display of the first page  to none
     if(username != ""){
-        if(playerNum == 1){
-            //change display of input to none
-            document.getElementById("single").style.display = "none";
-        }
-        else{
-            document.getElementById("multi").style.display = "none";
-        }
+        document.getElementById("mainPage").style.display = "none";
+        document.getElementById("gamePage").style.display = "grid";
+
     }
     //if the user does not put anyhing in, and tries to start the game
     else if(username == "" && document.getElementById("start").style.display == "none"){
@@ -53,53 +53,7 @@ function checkAvailiable(item){
     else return false;
 }
 
-//function when user click the item
-function move(event, player){
-    let item = event.target.id; //get id name which user clicked
-    let index = grid.indexOf(item); //get the index of that id so that we can changed it
-    let secondIndex = 0;
 
-    //if it's player's turn
-    if(player.turn == true){
-        //If it is a valid move,
-        if(checkAvailiable(item) == true){
-            secondIndex = gridChange.indexOf(item);
-            //remove that element from copied array
-            gridChange.splice(secondIndex, 1);
-
-            //Replace id name with X 
-            grid[index] = "X";
-            
-            document.getElementById(item).innerHTML = "X";
-            //Now it's computer's turn
-            player.turn = false;
-            return index;
-        }
-    }
-    //if it's computer's turn
-    else{
-        //Random number between 0 and the number of element left 
-        var rand = Math.floor(Math.random() * (gridChange.length - 1));
-
-        //set new Item name and find index 
-        item = gridChange[rand];
-        index = grid.indexOf(item);
-
-        //remove that element from copied array
-        gridChange.splice(rand, 1);
-
-        //Replace ID name with O
-        grid[index] = "O";
-        document.getElementById(item).innerHTML = "O";
-        
-
-        //Now it's player's turn
-        player.turn = true;
-
-        return index;
-
-    }
-}
 
 /*
 Basic explanation of this algorithm:
@@ -151,37 +105,104 @@ function endGame(){
     return false;
 }
 
+//function when user click the item
+function move(event, player){
+    let item = event.target.id; //get id name which user clicked
+    let index = grid.indexOf(item); //get the index of that id so that we can changed it
+    let secondIndex = 0;
+
+    //if it's player's turn
+    if(player.turn == true){
+        //If it is a valid move,
+        if(checkAvailiable(item) == true){
+            secondIndex = gridChange.indexOf(item);
+            //remove that element from copied array
+            gridChange.splice(secondIndex, 1);
+
+            //Replace id name with X 
+            grid[index] = "X";
+            
+            document.getElementById(item).innerHTML = "X";
+            //Now it's computer's turn
+            player.turn = false;
+            return index;
+        }
+    }
+    //if it's computer's turn
+    else{
+        //Random number between 0 and the number of element left 
+        var rand = Math.floor(Math.random() * (gridChange.length - 1));
+
+        //set new Item name and find index 
+        item = gridChange[rand];
+        index = grid.indexOf(item);
+
+        //remove that element from copied array
+        gridChange.splice(rand, 1);
+
+        //Replace ID name with O
+        grid[index] = "O";
+        document.getElementById(item).innerHTML = "O";
+        
+
+        //Now it's player's turn
+        player.turn = true;
+
+        return index;
+
+    }
+}
+
+function moveTo(player, username, event){
+    let item = event.target.id; //get id name which user clicked
+    let index = grid.indexOf(item); //get the index of that id so that we can changed it
+    let secondIndex = 0;
+   
+    //if there is only one username, single play
+    if(username.length == 1){
+        //player's turn
+        if(player.turn){
+            //we don't need to check it because we are gonna delete the event listener
+            secondIndex = gridChange.indexOf(item);
+            //remove that element from copied array
+            gridChange.splice(secondIndex, 1);
+
+            //Replace id name with X 
+            grid[index] = "X";
+            
+            document.getElementById(item).innerHTML = "X";
+
+            Element.remo
+            //Now it's computer's turn
+            player.turn = false;
+        }
+        else{
+            console.log("Computer!");
+            player.turn = true;
+        }
+        
+    }
+    console.log(player.turn);
+    console.log(item);
+}
+
 
 //Main play of Tic Tac Toe
-function play(playerNum, event){
+function play(numPlayer){
+    //get the username from input
+    let username = getUsername(numPlayer);
     
-    let username = getUsername(playerNum);
-    console.log(username);
+    //For single play, if the turn is true, it's player's move. For multi play, if the turn is true, it's first player's move
+    let player = { turn: true }; //make an object to pass it by reference
+
     //Add EventListener to container div
     for(var i = 0; i < grid.length; i++){
         //shoule be move because we are calling play every single time when we click that cell  
-        document.getElementById(grid[i]).addEventListener("click", move);
+        document.getElementById(grid[i]).addEventListener("click", (event) => moveTo(player, username, event));
     }
 
-
-    
-    let index = 0; //index of the item that user or computer moved
-    //Display the name
-    //document.getElementById("turn").innerHTML = "It's Your Turn " + username + "!";
-    
-    //First, player will play the game
-    let player = { turn: true }; //make an object to pass it by reference
-    var checkwin = -1;
-    var i = 0;
-    //2: player won, 1: computer won, 0: draw, -1 still playing
-    while(i < 10){
-        index = move(event, player);
-        checkwin = checkWin(grid, gridChange,index);
-        i++;
-        console.log(grid);
-        console.log(gridChange);
-    }
-
+    //display the first person's name
+    document.getElementById("turn").innerHTML = username[0] + "'s move";
 }
 
 
