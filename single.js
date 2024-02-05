@@ -149,7 +149,7 @@ function checkWin(index, char){
     //if move is less than 5, game cannot be done 
     if(moves < middle) return false;
 
-    //worst case sinario, when user clicks the middle, check all squares
+    //when user clicks the middle, check all squares
     if(index == middle){
         return checkOdd(index, char) || checkEven(index, char);
     }
@@ -168,6 +168,11 @@ function endGame(char){
     //remove remaining onclick event
     for(var i = 0; i < gridChange.length; ++i){
         removeEvent(gridChange[i]);
+    }
+    if(gridChange.length == 0){         
+        document.getElementById("turn").innerHTML = "It's a Draw!";
+        //break it
+        return ;    
     }
     if(char == "X"){
         //player won
@@ -194,9 +199,7 @@ function changeGrid(item, index, char){
     document.getElementById(item).innerHTML = char;
 
     //if there is no remaining moves, it's a draw
-    if(gridChange.length == 0)         
-      return document.getElementById("turn").innerHTML = "It's a Draw!";
-
+    if(gridChange.length == 0) return true;
     //check win
     return checkWin(index, char);
 }
@@ -215,57 +218,6 @@ function randomMove(){
 
     //check win
     if(checkWin(index, char)) return endGame(char);
-}
-
-function computerEven(corners){
-    //loop through the gridChange, and put X in every items. If they win after that move, block it. 
-    for(var i = 0; i < corners.length; i++){
-        if(checkEven(corners[i], char)){
-            char = "O";
-            var computerIndex = corners[i];
-            var item = grid[computerIndex];
-            changeGrid(item, computerIndex, char);
-            //break it
-            return ;
-        }
-        //remove that element from the index
-        corners.splice(corners[i], 1);
-    }
-
-    //if the compiler reaches here,(player doesn't win )
-}
-
-
-function oddRand(){
-    //if the input is odd number, we should check win
-
-}
-
-function computerMove(playerIndex){
-    //corners have the most winning moves. So we should start with corners
-    let corners = [0, 2, 6, 8];
-    var char = "X";
-    //remove clicked index
-    corners.splice(playerIndex, 1);
-
-    if(playerIndex % 2 == 0){
-        //loop through the gridChange, and put X in every items. If they win after that move, block it. 
-        computerEven(corners);
-    }
-    //using gridChange, check the spots left
-    //if the move is less than 4, (length is greater than 6), make a move based on the clicked input
-    if(gridChange.length > 6){
-        //if the clicked index is even number
-        if(playerIndex % 2 == 0){
-            evenRand(corners);
-        }
-        //if the index is odd number 
-        else{
-
-        }
-    }
-    else{
-    }
 }
 
 function move(username, event){
