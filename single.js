@@ -15,6 +15,7 @@ function lists
     displayTurn(): Display name based on the turn
     changeGrid(): change the grid array and gridChange array
     move(): when user clicks the button, call move()
+    randomMove(): random move
     computerMove(): intelligent computer move
     checkEven(): check corner
     checkOdd(): check cross and up down, left right
@@ -66,18 +67,14 @@ function displayTurn(username){
 function checkEven(index, char) {
     // We will check only those 4 numbers (acc 3 but)
     var checkArr = [0, 2, 6, 8]
-    console.log(index + ":index inputed");
     //if the number is 4
     if(index == middle){
-        console.log("run!");
         //check 2, 6,
         if(grid[index - 2] == grid[index + 2] && grid[index - 2] == char) {
-            console.log("first: " + grid[index - 2] == grid[index + 2] && grid[index - 2] == char)
             return true;
         }
         //check 0 and 8
         else if(grid[index - 4] == grid[index + 4] && grid[index - 4] == char) {
-            console.log("second: " + grid[index - 4] == grid[index + 4] && grid[index - 4] == char);
             return true;
         }
         else return false;
@@ -90,7 +87,7 @@ function checkEven(index, char) {
     for (var i = 0; i < checkArr.length; ++i) {
         var checkIndex = checkArr[i];
 
-        // Check if the values at the indices are equal
+        // Check if the values at the indices are the same
         if (grid[index] == grid[checkIndex]) {
             var diff = Math.abs(index - checkIndex);
 
@@ -154,19 +151,15 @@ function checkWin(index, char){
 
     //worst case sinario, when user clicks the middle, check all squares
     if(index == middle){
-        console.log("This is odd: " + checkOdd(index, char));
-        console.log("This is Even: " + checkEven(index, char));
         return checkOdd(index, char) || checkEven(index, char);
     }
 
     //if the selected index is even number (corners) (i +=2 and j+=2 is important because you have to check 0,0 0,2 2,0 2,2)
     if(index % 2 == 0){
-        console.log("This is Even: " + checkEven(index, char));
         return checkEven(index, char);
     }
     //if the selected index is odd number (cross), you have to check both. 
     else{
-        console.log("This is odd: " + checkOdd(index, char));
         return checkOdd(index, char);
     }
 }
@@ -200,18 +193,16 @@ function changeGrid(item, index, char){
     //change the html(fill out)
     document.getElementById(item).innerHTML = char;
 
-    console.log(gridChange.length);
     //if there is no remaining moves, it's a draw
     if(gridChange.length == 0)         
       return document.getElementById("turn").innerHTML = "It's a Draw!";
 
-    if(checkWin(index, char)) return endGame(char);
-    //if anyone wins, return true
+    //check win
     return checkWin(index, char);
 }
 
 
-function computerMove(){
+function randomMove(){
     const char = "0";
     //I have to figure out the intelligent moves(not random moves obviously)
     //Random number between 0 and the number of element left 
@@ -221,12 +212,65 @@ function computerMove(){
     let item = gridChange[rand];
     let index = grid.indexOf(item);
     changeGrid(item, index, char);
+
+    //check win
+    if(checkWin(index, char)) return endGame(char);
+}
+
+function computerEven(corners){
+    //loop through the gridChange, and put X in every items. If they win after that move, block it. 
+    for(var i = 0; i < corners.length; i++){
+        if(checkEven(corners[i], char)){
+            char = "O";
+            var computerIndex = corners[i];
+            var item = grid[computerIndex];
+            changeGrid(item, computerIndex, char);
+            //break it
+            return ;
+        }
+        //remove that element from the index
+        corners.splice(corners[i], 1);
+    }
+
+    //if the compiler reaches here,(player doesn't win )
+}
+
+
+function oddRand(){
+    //if the input is odd number, we should check win
+
+}
+
+function computerMove(playerIndex){
+    //corners have the most winning moves. So we should start with corners
+    let corners = [0, 2, 6, 8];
+    var char = "X";
+    //remove clicked index
+    corners.splice(playerIndex, 1);
+
+    if(playerIndex % 2 == 0){
+        //loop through the gridChange, and put X in every items. If they win after that move, block it. 
+        computerEven(corners);
+    }
+    //using gridChange, check the spots left
+    //if the move is less than 4, (length is greater than 6), make a move based on the clicked input
+    if(gridChange.length > 6){
+        //if the clicked index is even number
+        if(playerIndex % 2 == 0){
+            evenRand(corners);
+        }
+        //if the index is odd number 
+        else{
+
+        }
+    }
+    else{
+    }
 }
 
 function move(username, event){
     let item = event.target.id; //get id name which user clicked
     let index = grid.indexOf(item); //get the index of that id so that we can changed it
-    let win;
     const playerChar = "X";
 
     //after player clicks, check win, and if win is false, computer moves. After computer moves, if win is true, break it(return end)
@@ -234,17 +278,22 @@ function move(username, event){
     displayTurn(username);
 
     //player will play
-    changeGrid(item, index, playerChar);
+    win = changeGrid(item, index, playerChar);
 
+    //if player wins, end the game
+    if(win) return endGame(playerChar);
     //change the username to "computer"
     username = "computer";
 
     //display the turn 
     displayTurn(username);
 
-    //Wait a second before make a move
-    setTimeout(computerMove, 1000);
-
+    /*
+    for computer move
+    setTimeout(function() {computerMove(index)}, 1000);
+    */
+    //Wait one second before make a move
+    setTimeout(randomMove, 1000);
 }
 
 function play(){
