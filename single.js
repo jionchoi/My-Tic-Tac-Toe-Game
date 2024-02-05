@@ -6,6 +6,7 @@ let gridChange = Array.from(grid);
 //middle index 
 const middle = 4;
 
+
 /*
 function lists
     game(): hide the first page and show username input
@@ -169,11 +170,6 @@ function endGame(char){
     for(var i = 0; i < gridChange.length; ++i){
         removeEvent(gridChange[i]);
     }
-    if(gridChange.length == 0){         
-        document.getElementById("turn").innerHTML = "It's a Draw!";
-        //break it
-        return ;    
-    }
     if(char == "X"){
         //player won
         document.getElementById("turn").innerHTML = "asdf" + " has won!";
@@ -197,13 +193,19 @@ function changeGrid(item, index, char){
 
     //change the html(fill out)
     document.getElementById(item).innerHTML = char;
-
-    //if there is no remaining moves, it's a draw
-    if(gridChange.length == 0) return true;
+ 
     //check win
-    return checkWin(index, char);
+    if(checkWin(index, char)) return true;
 }
 
+function checkDraw(){
+      //if there is no remaining moves, it's a draw
+    if(gridChange.length == 0){
+        console.log("draw");
+        return true;
+    }
+    else return false;
+}
 
 function randomMove(){
     const char = "0";
@@ -225,27 +227,27 @@ function move(username, event){
     let index = grid.indexOf(item); //get the index of that id so that we can changed it
     const playerChar = "X";
 
-    //after player clicks, check win, and if win is false, computer moves. After computer moves, if win is true, break it(return end)
-    //display the turn
-    displayTurn(username);
+        //after player clicks, check win, and if win is false, computer moves. After computer moves, if win is true, break it(return end)
+        //display the turn
+        displayTurn(username);
 
-    //player will play
-    win = changeGrid(item, index, playerChar);
+        //player will play
+        win = changeGrid(item, index, playerChar);
 
-    //if player wins, end the game
-    if(win) return endGame(playerChar);
-    //change the username to "computer"
-    username = "computer";
+        //if player wins, end the game
+        if(win) return endGame(playerChar);
+        else if(checkDraw()) return  document.getElementById("turn").innerHTML = "It's a Draw!";
+        else{
+            //change the username to "computer"
+            username = "computer";
 
-    //display the turn 
-    displayTurn(username);
+            //display the turn 
+            displayTurn(username);
 
-    /*
-    for computer move
-    setTimeout(function() {computerMove(index)}, 1000);
-    */
-    //Wait one second before make a move
-    setTimeout(randomMove, 1000);
+            //Wait one second before make a move
+            //setTimeout(randomMove, 1000);
+            randomMove();
+        }
 }
 
 function play(){
