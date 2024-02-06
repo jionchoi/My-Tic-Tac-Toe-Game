@@ -60,10 +60,10 @@ function removeEvent(item){
     document.getElementById(item).onclick = "none";
 }
 
-function displayTurn(username){
-    //display the turn(name)
-    document.getElementById("turn").innerHTML = username + "'s move!";
-}
+// function displayTurn(username){
+//     //display the turn(name)
+//     document.getElementById("turn").innerHTML = username + "'s move!";
+// }
 
 function checkEven(index, char) {
     // We will check only those 4 numbers (acc 3 but)
@@ -227,9 +227,9 @@ function move(username, event){
     let index = grid.indexOf(item); //get the index of that id so that we can changed it
     const playerChar = "X";
 
-        //after player clicks, check win, and if win is false, computer moves. After computer moves, if win is true, break it(return end)
-        //display the turn
-        displayTurn(username);
+        // //after player clicks, check win, and if win is false, computer moves. After computer moves, if win is true, break it(return end)
+        // //display the turn
+        // displayTurn(username);
 
         //player will play
         win = changeGrid(item, index, playerChar);
@@ -241,8 +241,8 @@ function move(username, event){
             //change the username to "computer"
             username = "computer";
 
-            //display the turn 
-            displayTurn(username);
+            // //display the turn 
+            // displayTurn(username);
 
             //Wait one second before make a move
             //setTimeout(randomMove, 1000);
@@ -257,6 +257,4 @@ function play(){
     //add event linsters in grid items
     addEvent(username);
 
-    //display the first person's name
-    displayTurn(username);
 }
