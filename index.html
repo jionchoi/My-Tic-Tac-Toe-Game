@@ -9,14 +9,14 @@
         <div id="mainPage">
             <div class="title">Welcome To Tic Tac Toe</div>
             <div id="start">
-                <button onclick="game(1)">Single Play</button> </br>
-                <button onclick="game(2)">Multi Play</button>
+                <button onclick="game()">Single Player</button> </br>
+                <button onclick="game()">Multi Player</button>
             </div>
 
             <div id="single">
                 <label class="label">Enter Your Username:</label></br>
                 <input tyep="text" placeholder="Username" id="input"> </br>
-                <button id="play" onclick="play(1)">Play!</button>
+                <button id="play" onclick="play()">Play!</button>
             </div>
     
             <div id="multi">
@@ -24,7 +24,7 @@
                     <input tyep="text" placeholder="username" id="input1"> </br>
                     <label class="label">Enter Your Username for two:</label>   
                     <input tyep="text" placeholder="username" id="input2"> </br>
-                    <button id="play" onclick="play(2)">Play!</button>
+                    <button id="play" onclick="play()">Play!</button>
             </div>
         </div>
 
@@ -37,7 +37,7 @@
                 <div id="item2"></div>
                 <div id="item3"></div>
                 <div id="item4"></div>
-                <div id="item5"></div>
+                <div id="item5"></div> 
                 <div id="item6"></div>
                 <div id="item7"></div>
                 <div id="item8"></div>
@@ -45,5 +45,6 @@
             </div>
         </div>
     </body>
-    <script src="index.js"></script>
+    <script src="single.js"></script>
+    <!--<script src="multi.js"></script> -->
 </html>

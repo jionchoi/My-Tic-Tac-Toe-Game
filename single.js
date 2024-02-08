@@ -165,14 +165,19 @@ function checkWin(index, char){
     }
 }
 
-function endGame(char){
+
+function removeHover(item){
+    document.getElementById(item).style.pointerEvents = "none";
+}
+
+function endGame(username, char){
     //remove remaining onclick event
     for(var i = 0; i < gridChange.length; ++i){
         removeEvent(gridChange[i]);
     }
     if(char == "X"){
         //player won
-        document.getElementById("turn").innerHTML = "asdf" + " has won!";
+        document.getElementById("turn").innerHTML = username + " has won!";
     }
     else
         document.getElementById("turn").innerHTML = "computer has won!";
@@ -183,6 +188,8 @@ function changeGrid(item, index, char){
     //remove click event
     removeEvent(item);
 
+    //remove hover css property
+    removeHover(item);
     //Replace id name with X or O
     grid[index] = char;
     //get the index of the item in gridChange array 
@@ -207,7 +214,7 @@ function checkDraw(){
     else return false;
 }
 
-function randomMove(){
+function randomMove(username){
     const char = "0";
     //I have to figure out the intelligent moves(not random moves obviously)
     //Random number between 0 and the number of element left 
@@ -219,7 +226,7 @@ function randomMove(){
     changeGrid(item, index, char);
 
     //check win
-    if(checkWin(index, char)) return endGame(char);
+    if(checkWin(index, char)) return endGame(username, char);
 }
 
 function move(username, event){
@@ -235,18 +242,15 @@ function move(username, event){
         win = changeGrid(item, index, playerChar);
 
         //if player wins, end the game
-        if(win) return endGame(playerChar);
+        if(win) return endGame(username, playerChar);
         else if(checkDraw()) return  document.getElementById("turn").innerHTML = "It's a Draw!";
         else{
-            //change the username to "computer"
-            username = "computer";
-
             // //display the turn 
             // displayTurn(username);
 
             //Wait one second before make a move
             //setTimeout(randomMove, 1000);
-            randomMove();
+            randomMove(username);
         }
 }
 

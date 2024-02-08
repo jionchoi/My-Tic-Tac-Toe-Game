@@ -3,11 +3,11 @@
 body{
     display: flex;
     justify-content: center;
-    background-color: #cc99ff;
+    background-color: #00B4D8;
 }
 
 #mainPage{
-    background-color: #7272FF;
+    background-color: #90E0EF;
     width: 26rem;
     height: 38rem;
     margin-top: 10%;
@@ -93,6 +93,8 @@ button:hover:after{
     display: none;
 }   
 
+
+
 #gamePage{
     display: none;
 }
@@ -114,13 +116,14 @@ button:hover:after{
     height: 12rem;
     text-align: center;
     font-size: 10rem;
-    background-color: #7272FF;
+    background-color: #ADE8F4;
     
 }
 
 #game > div:hover{
-    background-color: aquamarine;
+    background-color: #dff4f9;
 }
+
 
 #turn{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS';
