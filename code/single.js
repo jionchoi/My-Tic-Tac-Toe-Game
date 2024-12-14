@@ -1,5 +1,5 @@
 //Declared each id of the grid-items
-let grid = ["item1","item2","item3","item4","item5","item6","item7","item8", "item9"];
+let grid = ["item1", "item2", "item3", "item4", "item5", "item6", "item7", "item8", "item9"];
 //Declared the same grid, but element will be removed as player and computer plays
 let gridChange = Array.from(grid);
 
@@ -24,23 +24,30 @@ function lists
     endGame(): if anyone won, end the game
 */
 
-function game(){
-    document.getElementById("start").style.display = "none";
-    document.getElementById("single").style.display = "block";
+function game(player) {
+    console.log(player);
 
+    if (player === "singlePlayer") {
+        document.getElementById("start").style.display = "none";
+        document.getElementById("single").style.display = "block";
+    }
+    else if(player === "multiPlayer"){
+        document.getElementById("start").style.display = "block";
+        document.getElementById("single").style.display = "none";
+    }
 }
 
-function getUsername(){
+function getUsername() {
     const username = document.getElementById("input").value;
-       
+
     //if the username is inputed, change display of the first page  to none
-    if(username != ""){
+    if (username != "") {
         document.getElementById("mainPage").style.display = "none";
         document.getElementById("gamePage").style.display = "grid";
 
     }
     //if the user does not put anyhing in, and tries to start the game
-    else if(username == "" && document.getElementById("start").style.display == "none"){
+    else if (username == "" && document.getElementById("start").style.display == "none") {
         window.alert("Please enter Username");
     }
 
@@ -48,15 +55,15 @@ function getUsername(){
     return username;
 }
 
-function addEvent(username){
+function addEvent(username) {
     //Add EventListener to container div
-    for(var i = 0; i < grid.length; i++){
+    for (var i = 0; i < grid.length; i++) {
         //shoule be move because we are calling play every single time when we click that cell  
-        document.getElementById(grid[i]).onclick = function(event){move(username, event)};
+        document.getElementById(grid[i]).onclick = function (event) { move(username, event) };
     }
 }
 
-function removeEvent(item){
+function removeEvent(item) {
     document.getElementById(item).onclick = "none";
 }
 
@@ -69,13 +76,13 @@ function checkEven(index, char) {
     // We will check only those 4 numbers (acc 3 but)
     var checkArr = [0, 2, 6, 8]
     //if the number is 4
-    if(index == middle){
+    if (index == middle) {
         //check 2, 6,
-        if(grid[index - 2] == grid[index + 2] && grid[index - 2] == char) {
+        if (grid[index - 2] == grid[index + 2] && grid[index - 2] == char) {
             return true;
         }
         //check 0 and 8
-        else if(grid[index - 4] == grid[index + 4] && grid[index - 4] == char) {
+        else if (grid[index - 4] == grid[index + 4] && grid[index - 4] == char) {
             return true;
         }
         else return false;
@@ -114,27 +121,27 @@ function checkEven(index, char) {
     return false;
 }
 
-function checkOdd(index, char){
+function checkOdd(index, char) {
     //You have to check not only right, but up and down
     //check up and down (above and below)
     //if index is either 1, 7, check index - 1 and index + 1
-    if(index == 1 || index == 7){
+    if (index == 1 || index == 7) {
         //make sure all three characters are the same 
-        if(grid[index - 1] == grid[index + 1] && grid[index - 1] == char) return true;
-        
+        if (grid[index - 1] == grid[index + 1] && grid[index - 1] == char) return true;
+
     }
     //if index is either 3, 5, check index - 3 and index + 3
-    else{
-        if(grid[index - 3] == grid[index + 3] && grid[index - 3] == char) return true;
-    }   
+    else {
+        if (grid[index - 3] == grid[index + 3] && grid[index - 3] == char) return true;
+    }
 
     //if the middle is not the same character, it cannot be a line 
-    if(grid[middle] == char){
-        if(grid[1] == grid[7] && grid[1] == char){
+    if (grid[middle] == char) {
+        if (grid[1] == grid[7] && grid[1] == char) {
             return true;
         }
         //vertical
-        else if(grid[3] == grid[5] && grid[3] == char){
+        else if (grid[3] == grid[5] && grid[3] == char) {
             return true;
         }
     }
@@ -143,39 +150,39 @@ function checkOdd(index, char){
     return false;
 }
 
-function checkWin(index, char){
+function checkWin(index, char) {
     //Current length will be grid - gridChange (+1 because you need to check itself)
     var moves = grid.length - gridChange.length + 1;
 
     //if move is less than 5, game cannot be done 
-    if(moves < middle) return false;
+    if (moves < middle) return false;
 
     //when user clicks the middle, check all squares
-    if(index == middle){
+    if (index == middle) {
         return checkOdd(index, char) || checkEven(index, char);
     }
 
     //if the selected index is even number (corners) (i +=2 and j+=2 is important because you have to check 0,0 0,2 2,0 2,2)
-    if(index % 2 == 0){
+    if (index % 2 == 0) {
         return checkEven(index, char);
     }
     //if the selected index is odd number (cross), you have to check both. 
-    else{
+    else {
         return checkOdd(index, char);
     }
 }
 
 
-function removeHover(item){
+function removeHover(item) {
     document.getElementById(item).style.pointerEvents = "none";
 }
 
-function endGame(username, char){
+function endGame(username, char) {
     //remove remaining onclick event
-    for(var i = 0; i < gridChange.length; ++i){
+    for (var i = 0; i < gridChange.length; ++i) {
         removeEvent(gridChange[i]);
     }
-    if(char == "X"){
+    if (char == "X") {
         //player won
         document.getElementById("turn").innerHTML = username + " has won!";
     }
@@ -184,7 +191,7 @@ function endGame(username, char){
 }
 
 //Change grid array 
-function changeGrid(item, index, char){
+function changeGrid(item, index, char) {
     //remove click event
     removeEvent(item);
 
@@ -200,21 +207,21 @@ function changeGrid(item, index, char){
 
     //change the html(fill out)
     document.getElementById(item).innerHTML = char;
- 
+
     //check win
-    if(checkWin(index, char)) return true;
+    if (checkWin(index, char)) return true;
 }
 
-function checkDraw(){
-      //if there is no remaining moves, it's a draw
-    if(gridChange.length == 0){
+function checkDraw() {
+    //if there is no remaining moves, it's a draw
+    if (gridChange.length == 0) {
         console.log("draw");
         return true;
     }
     else return false;
 }
 
-function randomMove(username){
+function randomMove(username) {
     const char = "0";
     //I have to figure out the intelligent moves(not random moves obviously)
     //Random number between 0 and the number of element left 
@@ -226,35 +233,35 @@ function randomMove(username){
     changeGrid(item, index, char);
 
     //check win
-    if(checkWin(index, char)) return endGame(username, char);
+    if (checkWin(index, char)) return endGame(username, char);
 }
 
-function move(username, event){
+function move(username, event) {
     let item = event.target.id; //get id name which user clicked
     let index = grid.indexOf(item); //get the index of that id so that we can changed it
     const playerChar = "X";
 
-        // //after player clicks, check win, and if win is false, computer moves. After computer moves, if win is true, break it(return end)
-        // //display the turn
+    // //after player clicks, check win, and if win is false, computer moves. After computer moves, if win is true, break it(return end)
+    // //display the turn
+    // displayTurn(username);
+
+    //player will play
+    win = changeGrid(item, index, playerChar);
+
+    //if player wins, end the game
+    if (win) return endGame(username, playerChar);
+    else if (checkDraw()) return document.getElementById("turn").innerHTML = "It's a Draw!";
+    else {
+        // //display the turn 
         // displayTurn(username);
 
-        //player will play
-        win = changeGrid(item, index, playerChar);
-
-        //if player wins, end the game
-        if(win) return endGame(username, playerChar);
-        else if(checkDraw()) return  document.getElementById("turn").innerHTML = "It's a Draw!";
-        else{
-            // //display the turn 
-            // displayTurn(username);
-
-            //Wait one second before make a move
-            //setTimeout(randomMove, 1000);
-            randomMove(username);
-        }
+        //Wait one second before make a move
+        //setTimeout(randomMove, 1000);
+        randomMove(username);
+    }
 }
 
-function play(){
+function play() {
     //get the username from input
     let username = getUsername();
 

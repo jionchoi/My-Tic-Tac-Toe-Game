@@ -8,6 +8,7 @@ const middle = 4;
 
 
 function game(player){
+    console.log(player);
     //if it is a single player game, 
     if(player == 1){
         document.getElementById("start").style.display = "none";
@@ -15,8 +16,8 @@ function game(player){
     }
     //if it is a multi player game, 
     else{
-        document.getElementById("start").style.display = "none";
-        document.getElementById("multi").style.display = "block";
+        document.getElementById("start").style.display = "block";
+        document.getElementById("multi").style.display = "none";
     }
     
 }
